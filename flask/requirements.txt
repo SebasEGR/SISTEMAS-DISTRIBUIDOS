@@ -1,0 +1,5 @@
+Flask>=2.2,<3.1
+uWSGI==2.0.27
+pyodbc==4.0.39
+flask-jwt-extended==4.4.4
+passlib==1.7.4

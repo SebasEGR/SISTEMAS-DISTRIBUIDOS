@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SysPresta</title>
+</head>
+<body>
+    <h1>Bienvenido a SysPresta</h1>
+    <p>Este sitio está conectado al backend Flask + Nginx.</p>
+    <button onclick="probar()">Probar conexión</button>
+    <p id="respuesta"></p>
+
+    <script>
+        function probar() {
+            fetch("/")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("respuesta").innerText = data.mensaje;
+                })
+                .catch(error => {
+                    document.getElementById("respuesta").innerText = "Error al conectar: " + error;
+                });
+        }
+    </script>
+</body>
+</html>

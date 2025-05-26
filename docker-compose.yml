@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  flask:
+    build: ./flask
+    container_name: flask
+    restart: always
+    environment:
+      - APP_NAME=app
+    expose:
+      - "8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8000:80"
+    depends_on:
+      - flask
+    networks:
+      - frontend
+      - backend
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    restart: always
+    environment:
+      SA_PASSWORD: "yourStrong(!)Password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+  admin-ui:
+    build: ./adminuser-ui
+    container_name: admin-ui
+    restart: always
+    ports:
+      - "8082:8082"
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+      - frontend
+
+networks:
+  backend:
+  frontend:
